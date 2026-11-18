@@ -16,7 +16,7 @@ function mk(id: string, extra: Partial<Task> = {}): Task {
   return {
     id, title: id, doneCriteria: '', minutes: 20, category: 'research', type: 'mine', status: 'todo', priority: 2,
     phaseId: null, dueDate: null, scheduledDate: null, pinned: false, dependsOn: [], assetIds: [], programIds: [],
-    parentId: null, completedAt: null, deferCount: 0, notes: '', createdAt: '2026-01-01T00:00:00Z', ...extra,
+    parentId: null, completedAt: null, deferCount: 0, notes: '', answerType: 'check', answeredAt: null, createdAt: '2026-01-01T00:00:00Z', ...extra,
   };
 }
 

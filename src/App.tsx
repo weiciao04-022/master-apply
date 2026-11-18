@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { CalendarRange, Menu, X, FolderOpen, GraduationCap, HardDrive, NotebookPen, Settings as SettingsIcon, Sun, type LucideIcon } from 'lucide-react';
+import { BookHeart, CalendarRange, Menu, X, FolderOpen, GraduationCap, HardDrive, NotebookPen, Settings as SettingsIcon, Sun, type LucideIcon } from 'lucide-react';
 import { useStore } from './store';
 import Today from './pages/Today';
 import Programs from './pages/Programs';
@@ -8,6 +8,7 @@ import Review from './pages/Review';
 import Roadmap from './pages/Roadmap';
 import Docs from './pages/Docs';
 import SettingsPage from './pages/Settings';
+import Journal from './pages/Journal';
 import { pageHref, safeId } from './lib/route';
 import { ConfirmHost } from './components/confirm';
 import SparkleCursor from './components/sparkleCursor';
@@ -18,6 +19,7 @@ const NAV: { path: string; label: string; en: string; icon: LucideIcon }[] = [
   { path: 'today', en: 'today', label: '今天', icon: Sun },
   { path: 'roadmap', en: 'roadmap', label: '路線圖', icon: CalendarRange },
   { path: 'programs', en: 'schools', label: '選校', icon: GraduationCap },
+  { path: 'journal', en: 'journal', label: '紀錄庫', icon: BookHeart },
   { path: 'docs', en: 'files', label: '文件', icon: FolderOpen },
   { path: 'review', en: 'recap', label: '回顧', icon: NotebookPen },
   { path: 'setup', en: 'settings', label: '設定', icon: SettingsIcon },
@@ -41,6 +43,7 @@ const MASTHEAD: Record<string, [string, string]> = {
   today: ['Today', 'just do a little ♡'],
   roadmap: ['The Roadmap', 'dream it, plan it, get it'],
   programs: ['Dream Schools', 'it’s giving grad school'],
+  journal: ['Dear Diary', 'everything you wrote ♡'],
   docs: ['The Files', 'portfolio era ✿'],
   review: ['Weekly Recap', 'look how far you’ve come'],
   setup: ['Settings', 'behind the scenes'],
@@ -113,6 +116,9 @@ export default function App() {
       break;
     case 'roadmap':
       page = <Roadmap />;
+      break;
+    case 'journal':
+      page = <Journal />;
       break;
     case 'docs':
       page = <Docs />;

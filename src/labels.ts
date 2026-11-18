@@ -1,4 +1,5 @@
 import type {
+  AnswerType,
   ApplicationRecord,
   AssetKind,
   AssetStatus,
@@ -133,3 +134,11 @@ export const REQUIREMENT_TEMPLATE: { name: string; kind: Requirement['kind'] }[]
   { name: '作品集／寫作樣本', kind: 'newsWork' },
   { name: '申請費', kind: 'fee' },
 ];
+
+export const ANSWER_TYPE: Record<AnswerType, { label: string; hint: string; emoji: string }> = {
+  check: { label: '做完打勾', hint: '做完按愛心就好', emoji: '♡' },
+  text: { label: '寫下回答', hint: '像對話一樣回答一個問題', emoji: '💬' },
+  list: { label: '列清單', hint: '一項一項列出來', emoji: '☰' },
+  link: { label: '存連結', hint: '貼上文件或作品網址', emoji: '🔗' },
+  date: { label: '定日期', hint: '選一個日期', emoji: '📅' },
+};

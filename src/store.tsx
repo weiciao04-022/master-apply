@@ -156,6 +156,16 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         } else {
           d = { ...d, schemaVersion: SCHEMA_VERSION };
           for (const k of COLLECTIONS) if (!Array.isArray(d[k])) (d as unknown as Record<string, unknown>)[k] = [];
+          // 舊資料補上回答方式
+          if (d.tasks.some((t) => !t.answerType)) {
+            d = { ...d, tasks: d.tasks.map((t) => (t.answerType ? t : { ...t, answerType: t.notes || /備註|紀錄|寫下/.test(t.doneCriteria) ? 'text' : 'check', answeredAt: t.notes ? t.createdAt : null })) };
+            await saveCollections(d, ['tasks']);
+          }
+          // 舊版文字：「備註」改名為「我的紀錄」
+          if (d.tasks.some((t) => t.doneCriteria.includes('備註'))) {
+            d = { ...d, tasks: d.tasks.map((t) => ({ ...t, doneCriteria: t.doneCriteria.replace('在備註寫下', '在「我的紀錄」寫下').replace('寫在備註', '寫在「我的紀錄」') })) };
+            await saveCollections(d, ['tasks']);
+          }
           if (d.settings.lastPlannedOn !== t) {
             d = plan(d, t, true);
             await saveCollections(d, ['tasks', 'settings']);

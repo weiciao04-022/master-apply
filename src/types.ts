@@ -102,6 +102,9 @@ export interface Phase {
 // ───────── 任務 ─────────
 /** mine：我需要執行；waiting：等待他人；verify：待查證（例如等官方公布） */
 export type TaskType = 'mine' | 'waiting' | 'verify';
+/** 任務的回答方式：決定任務卡上出現什麼輸入框 */
+export type AnswerType = 'check' | 'text' | 'list' | 'link' | 'date';
+
 export type TaskCategory = 'english' | 'research' | 'portfolio' | 'documents' | 'submission' | 'other';
 
 export interface Task {
@@ -125,7 +128,10 @@ export interface Task {
   parentId: string | null;
   completedAt: string | null;
   deferCount: number;
+  /** 回答內容：文字、清單（一行一項）、網址或日期 */
   notes: string;
+  answerType: AnswerType;
+  answeredAt: string | null;
   createdAt: string;
 }
 

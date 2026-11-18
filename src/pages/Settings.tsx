@@ -30,7 +30,7 @@ export default function SettingsPage() {
     offer(
       `tasks-${today}.csv`,
       toCSV(
-        ['id', '任務', '完成條件', '類型', '類別', '狀態', '重要性', '分鐘', '階段', '期限', '排定日', '完成時間', '前置任務', '母任務', '相關學程', '備註'],
+        ['id', '任務', '完成條件', '類型', '類別', '狀態', '重要性', '分鐘', '階段', '期限', '排定日', '完成時間', '前置任務', '母任務', '相關學程', '我的紀錄'],
         data.tasks.map((t) => [
           t.id, t.title, t.doneCriteria, TASK_TYPE[t.type], TASK_CATEGORY[t.category], t.status === 'done' ? '完成' : '未完成', t.priority, t.minutes,
           ph.get(t.phaseId ?? '') ?? '', t.dueDate, t.scheduledDate, t.completedAt, t.dependsOn.map((x) => tk.get(x) ?? x), tk.get(t.parentId ?? '') ?? '',
