@@ -4,6 +4,7 @@ import {
   CalendarClock,
   CircleDashed,
   Check,
+  Heart,
   Clock,
   Hourglass,
   Search,
@@ -172,7 +173,8 @@ export function CheckButton({ checked, onToggle, label }: { checked: boolean; on
       aria-label={label}
       onClick={onToggle}
     >
-      {checked && <Check size={18} strokeWidth={3} />}
+      <Heart className="check-heart" size={30} strokeWidth={2.4} aria-hidden />
+      {checked && <Check className="check-mark" size={14} strokeWidth={4} aria-hidden />}
     </button>
   );
 }

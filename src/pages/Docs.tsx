@@ -6,6 +6,7 @@ import { ASSET_KIND, ASSET_STATUS, REC_RESPONSE, REC_SUBMISSION } from '../label
 import { Badge, Empty, ExtLink, Field, Modal, Section, Select, TextArea, TextInput } from '../components/ui';
 import { fmt } from '../lib/dates';
 import { uid } from '../lib/logic';
+import { HeartFolder } from '../components/kawaii';
 import { askConfirm } from '../components/confirm';
 import { programHref } from '../lib/route';
 
@@ -260,6 +261,7 @@ export default function Docs() {
   const [editing, setEditing] = useState<Asset | null>(null);
   const [versioning, setVersioning] = useState<Asset | null>(null);
   const [rec, setRec] = useState<Recommender | null>(null);
+  const [folder, setFolder] = useState<AssetKind | ''>('');
   const kinds = Object.keys(ASSET_KIND) as AssetKind[];
   const blank = (kind: AssetKind = 'newsWork'): Asset => ({ id: uid('as'), kind, title: '', status: 'notStarted', versions: [], todo: '', notes: '', updatedAt: today });
 
@@ -277,12 +279,29 @@ export default function Docs() {
       </header>
 
       {data.assets.length === 0 && <Empty icon={FolderOpen} title="素材庫是空的" />}
+      <div className="folder-desk" role="group" aria-label="依類型篩選素材">
+        <button className={`folder ${folder === '' ? 'on' : ''}`} aria-pressed={folder === ''} onClick={() => setFolder('')}>
+          <HeartFolder open={folder === ''} />
+          <span className="folder-name">全部</span>
+          <span className="folder-count">{data.assets.length}</span>
+        </button>
+        {kinds
+          .filter((k) => data.assets.some((a) => a.kind === k))
+          .map((k) => (
+            <button key={k} className={`folder ${folder === k ? 'on' : ''}`} aria-pressed={folder === k} onClick={() => setFolder(folder === k ? '' : k)}>
+              <HeartFolder open={folder === k} />
+              <span className="folder-name">{ASSET_KIND[k]}</span>
+              <span className="folder-count">{data.assets.filter((a) => a.kind === k).length}</span>
+            </button>
+          ))}
+      </div>
       {kinds.map((k) => {
         const list = data.assets.filter((a) => a.kind === k);
-        if (list.length === 0) return null;
+        if (list.length === 0 || (folder && folder !== k)) return null;
         return (
           <div className="asset-group" key={k}>
             <h3>
+              <HeartFolder size={26} />
               {ASSET_KIND[k]}（{list.length}）
             </h3>
             <div className="card-grid">
