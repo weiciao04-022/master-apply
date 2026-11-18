@@ -881,3 +881,74 @@ button:disabled { cursor: not-allowed; }
 .folder-count { font-size: 0.72rem; color: var(--pink-deep); font-weight: 700; }
 .asset-group h3 { display: flex; align-items: center; gap: 0.4rem; color: var(--ink); font-size: 1rem; }
 .nav-icon .heart-folder { filter: none; }
+
+
+/* ═════════ v4：拼貼海報背景 ═════════ */
+body {
+  background-color: #cde4fb;
+  background-image:
+    radial-gradient(circle, #ffffff 0 13px, transparent 14px),
+    radial-gradient(circle, #ffffff 0 13px, transparent 14px),
+    linear-gradient(180deg, #bcdcfa 0%, #dcedff 60%, #c9e2fb 100%);
+  background-size: 76px 76px, 76px 76px, 100% 100%;
+  background-position: 0 0, 38px 38px, 0 0;
+}
+.backdrop { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.shell > .topbar, .shell > .main { position: relative; z-index: 1; }
+.shell > .topbar { position: sticky; z-index: 30; }
+.bd-star, .bd-lips { position: absolute; filter: drop-shadow(0 6px 6px rgba(60, 90, 140, 0.25)); }
+.bd-lips { filter: drop-shadow(0 6px 8px rgba(120, 20, 70, 0.3)); }
+.bd-torn {
+  position: absolute; left: -2%; right: -2%; top: 58px; height: 230px; transform: rotate(-2deg);
+  background:
+    radial-gradient(circle, rgba(194, 16, 108, 0.18) 0 1.6px, transparent 2px) 0 0 / 7px 7px,
+    linear-gradient(180deg, #f7a8cf, #f48fc2);
+  clip-path: polygon(0 8%, 4% 4%, 9% 9%, 14% 3%, 20% 8%, 26% 2%, 31% 7%, 37% 3%, 43% 9%, 49% 4%, 55% 8%, 61% 2%, 67% 7%, 73% 3%, 79% 9%, 85% 4%, 91% 8%, 96% 3%, 100% 7%,
+    100% 90%, 96% 96%, 91% 91%, 86% 97%, 80% 92%, 74% 98%, 68% 93%, 62% 99%, 56% 92%, 50% 97%, 44% 91%, 38% 98%, 32% 93%, 26% 99%, 20% 92%, 14% 97%, 8% 91%, 3% 96%, 0 92%);
+}
+.bd-torn::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 16px; background: #fffaf2; opacity: 0.85;
+  clip-path: polygon(0 40%, 6% 0, 12% 60%, 19% 10%, 25% 70%, 33% 20%, 40% 80%, 47% 15%, 55% 65%, 62% 5%, 70% 75%, 77% 25%, 85% 70%, 92% 10%, 100% 50%, 100% 100%, 0 100%);
+}
+.bd-halftone { position: absolute; border-radius: 50%; }
+.bd-halftone.a { width: 420px; height: 420px; right: -120px; bottom: -140px;
+  background: radial-gradient(circle, #ff5fb0 0 3px, transparent 3.5px) 0 0 / 14px 14px;
+  -webkit-mask: radial-gradient(circle, #000 0 35%, transparent 70%); mask: radial-gradient(circle, #000 0 35%, transparent 70%); opacity: 0.55; }
+.bd-halftone.b { width: 300px; height: 300px; left: 18vw; top: 70vh;
+  background: radial-gradient(circle, #a77bff 0 2.5px, transparent 3px) 0 0 / 12px 12px;
+  -webkit-mask: radial-gradient(circle, #000 0 30%, transparent 70%); mask: radial-gradient(circle, #000 0 30%, transparent 70%); opacity: 0.4; }
+
+/* 剪報拼字標題 */
+.masthead { padding-top: 1.6rem; }
+.issue-line { display: inline-block; background: #111; color: #fff; padding: 0.15rem 0.7rem; transform: rotate(-1deg); font-family: 'Special Elite', 'Courier New', monospace; letter-spacing: 0.2em; }
+.ransom { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.12em; margin: 0.6rem auto 0.3rem; font-size: clamp(2.6rem, 8vw, 5rem); line-height: 1; background: none; color: inherit; width: auto; }
+.ransom::after { content: none; }
+.ransom-gap { width: 0.35em; }
+.ransom-chip {
+  display: inline-grid; place-items: center; min-width: 0.72em; padding: 0.08em 0.12em 0.04em; transform: rotate(var(--r));
+  box-shadow: 2px 3px 0 rgba(60, 20, 50, 0.25);
+  clip-path: polygon(2% 4%, 30% 0, 62% 5%, 98% 1%, 100% 40%, 96% 72%, 99% 98%, 64% 95%, 34% 100%, 3% 97%, 0 64%, 4% 30%);
+  transition: transform 0.2s;
+}
+.ransom:hover .ransom-chip { transform: rotate(calc(var(--r) * -1)) translateY(-2px); }
+.ransom-chip.v0 { background: #ffd1e6; color: #111; font-family: 'Anton', Impact, sans-serif; text-transform: uppercase; }
+.ransom-chip.v1 { background: #111; color: #fff; font-family: 'Playfair Display', serif; font-style: italic; font-weight: 900; }
+.ransom-chip.v2 { background: #fffaf2; color: #e0147a; font-family: 'Pacifico', cursive; font-size: 0.85em; }
+.ransom-chip.v3 { background: #ff5fb0; color: #fff; font-family: 'Anton', Impact, sans-serif; text-transform: uppercase; }
+.ransom-chip.v4 { background: radial-gradient(circle, rgba(0,0,0,.18) 0 1px, transparent 1.4px) 0 0 / 5px 5px, #fff; color: #111; font-family: 'Special Elite', 'Courier New', monospace; font-weight: 700; }
+.ransom-chip.v5 { background: #f7a8cf; color: #3f0d31; font-family: 'Playfair Display', serif; font-weight: 900; text-transform: lowercase; }
+.masthead-tag { font-size: 1.15rem; }
+
+@media (max-width: 860px) {
+  body { background-size: 52px 52px, 52px 52px, 100% 100%; background-position: 0 0, 26px 26px, 0 0; }
+  body { background-image: radial-gradient(circle, #ffffff 0 9px, transparent 10px), radial-gradient(circle, #ffffff 0 9px, transparent 10px), linear-gradient(180deg, #bcdcfa 0%, #dcedff 60%, #c9e2fb 100%); }
+  .bd-torn { height: 170px; }
+  .bd-star { transform-origin: center; scale: 0.6; }
+  .bd-lips { scale: 0.65; }
+  .bd-halftone.b { display: none; }
+  .ransom { font-size: clamp(2rem, 11vw, 3rem); }
+}
+@media (max-width: 520px) {
+  .issue-line { font-size: 0.55rem; letter-spacing: 0.12em; }
+  .cover-sticker { top: 3.6rem; right: 0; width: 58px; height: 58px; font-size: 0.6rem; }
+}

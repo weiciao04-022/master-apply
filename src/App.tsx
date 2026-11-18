@@ -12,6 +12,7 @@ import { pageHref, safeId } from './lib/route';
 import { ConfirmHost } from './components/confirm';
 import SparkleCursor from './components/sparkleCursor';
 import { HeartFolder } from './components/kawaii';
+import Collage from './components/collage';
 
 const NAV: { path: string; label: string; en: string; icon: LucideIcon }[] = [
   { path: 'today', en: 'today', label: '今天', icon: Sun },
@@ -48,14 +49,24 @@ const MASTHEAD: Record<string, [string, string]> = {
 function Masthead({ section }: { section: string }) {
   const [title, tag] = MASTHEAD[section] ?? MASTHEAD.today;
   return (
-    <div className="masthead" aria-hidden>
-      <span className="sparkle s1">✦</span>
-      <span className="sparkle s2">✧</span>
-      <span className="sparkle s3">✦</span>
-      <span className="sparkle s4">♡</span>
+    <div className="masthead">
+      <span aria-hidden className="sparkle s1">✦</span>
+      <span aria-hidden className="sparkle s2">✧</span>
+      <span aria-hidden className="sparkle s3">✦</span>
+      <span aria-hidden className="sparkle s4">♡</span>
       <p className="issue-line">vol. 01 ✦ grad school edition ✦ {section}</p>
-      <p className="masthead-title">{title}</p>
-      <span className="cover-sticker">
+      <h2 className="ransom" aria-label={title}>
+        {title.split('').map((ch, i) =>
+          ch === ' ' ? (
+            <span key={i} className="ransom-gap" />
+          ) : (
+            <span key={i} className={`ransom-chip v${(i * 7 + title.length) % 6}`} style={{ ['--r' as string]: `${((i * 37) % 11) - 5}deg` }}>
+              {ch}
+            </span>
+          ),
+        )}
+      </h2>
+      <span className="cover-sticker" aria-hidden>
         it girl
         <br />
         era ♡
@@ -118,6 +129,7 @@ export default function App() {
 
   return (
     <div className="shell">
+      <Collage />
       <header className="topbar">
         <button
           className="menu-btn"
