@@ -6,6 +6,8 @@ import { ASSET_KIND, ASSET_STATUS, REC_RESPONSE, REC_SUBMISSION } from '../label
 import { Badge, Empty, ExtLink, Field, Modal, Section, Select, TextArea, TextInput } from '../components/ui';
 import { fmt } from '../lib/dates';
 import { uid } from '../lib/logic';
+import { askConfirm } from '../components/confirm';
+import { programHref } from '../lib/route';
 
 function AssetModal({ asset, onClose }: { asset: Asset; onClose: () => void }) {
   const { data, upsert, remove } = useStore();
@@ -20,7 +22,7 @@ function AssetModal({ asset, onClose }: { asset: Asset; onClose: () => void }) {
       footer={
         <>
           {exists && (
-            <button className="btn danger ghost" onClick={() => confirm(`刪除「${a.title}」？學程材料的對應會被清空。`) && (remove('assets', a.id), onClose())}>
+            <button className="btn danger ghost" onClick={() => void askConfirm(`刪除「${a.title}」？學程材料的對應會被清空。`).then((ok) => ok && (remove('assets', a.id), onClose()))}>
               <Trash2 size={16} />
               刪除
             </button>
@@ -137,7 +139,7 @@ function AssetCard({ a, onEdit, onVersion }: { a: Asset; onEdit: () => void; onV
         {uses.length === 0
           ? <span className="muted">尚未對應</span>
           : [...new Set(uses.map((r) => data.programs.find((p) => p.id === r.programId)))].filter(Boolean).map((p) => (
-              <a key={p!.id} href={`#/programs/${p!.id}`} style={{ marginRight: 8 }}>
+              <a key={p!.id} href={programHref(p!.id)} style={{ marginRight: 8 }}>
                 {p!.school}
               </a>
             ))}
@@ -188,7 +190,7 @@ function RecommenderModal({ rec, onClose }: { rec: Recommender; onClose: () => v
       footer={
         <>
           {exists && (
-            <button className="btn danger ghost" onClick={() => confirm(`刪除推薦人「${r.name}」？`) && (remove('recommenders', r.id), onClose())}>
+            <button className="btn danger ghost" onClick={() => void askConfirm(`刪除推薦人「${r.name}」？`).then((ok) => ok && (remove('recommenders', r.id), onClose()))}>
               <Trash2 size={16} />
               刪除
             </button>

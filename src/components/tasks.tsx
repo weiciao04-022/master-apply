@@ -7,6 +7,8 @@ import { CheckButton, Field, Modal, MinutesBadge, MultiPick, Select, TaskTypeBad
 import { deferTask, depsDone } from '../lib/scheduler';
 import { fmt, relative } from '../lib/dates';
 import { uid } from '../lib/logic';
+import { askConfirm } from './confirm';
+import { pageHref, programHref } from '../lib/route';
 
 export function newTask(partial: Partial<Task> = {}): Task {
   return {
@@ -89,7 +91,7 @@ export function TaskCard({ task, onEdit }: { task: Task; onEdit: (t: Task) => vo
                         {a.title}
                       </a>
                     ) : (
-                      <a href="#/docs">{a.title}</a>
+                      <a href={pageHref('docs')}>{a.title}</a>
                     )}
                   </li>
                 );
@@ -97,7 +99,7 @@ export function TaskCard({ task, onEdit }: { task: Task; onEdit: (t: Task) => vo
               {programs.map((p) => (
                 <li key={p.id}>
                   <GraduationCap size={14} aria-hidden />
-                  <a href={`#/programs/${p.id}`}>
+                  <a href={programHref(p.id)}>
                     {p.school}｜{p.programName}
                   </a>
                 </li>
@@ -217,10 +219,11 @@ export function TaskForm({ task, onClose }: { task: Task; onClose: () => void })
             <button
               className="btn danger ghost"
               onClick={() => {
-                if (confirm(`刪除「${t.title}」？子任務也會一起刪除。`)) {
+                void askConfirm(`刪除「${t.title}」？子任務也會一起刪除。`).then((ok) => {
+                  if (!ok) return;
                   remove('tasks', t.id);
                   onClose();
-                }
+                });
               }}
             >
               <Trash2 size={16} />

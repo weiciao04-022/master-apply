@@ -5,6 +5,8 @@ import { useStore } from '../store';
 import { PROGRAM_STATUS } from '../labels';
 import { Field, Modal, Select, TextArea, TextInput } from './ui';
 import { uid } from '../lib/logic';
+import { askConfirm } from './confirm';
+import { go, pageHref } from '../lib/route';
 
 export function newProgram(intakeLabel: string): Program {
   const now = new Date().toISOString();
@@ -96,11 +98,12 @@ export function ProgramForm({ program, onClose, onSaved }: { program: Program; o
             <button
               className="btn danger ghost"
               onClick={() => {
-                if (confirm(`刪除「${p.school}｜${p.programName}」？相關來源、材料清單、送件紀錄與該學程的日期都會一起刪除。`)) {
+                void askConfirm(`刪除「${p.school}｜${p.programName}」？相關來源、材料清單、送件紀錄與該學程的日期都會一起刪除。`).then((ok) => {
+                  if (!ok) return;
                   remove('programs', p.id);
                   onClose();
-                  location.hash = '#/programs';
-                }
+                  go(pageHref('programs'));
+                });
               }}
             >
               <Trash2 size={16} />

@@ -8,6 +8,7 @@ import { Badge, Empty, Progress } from '../components/ui';
 import { ProgramForm, newProgram } from '../components/programForm';
 import { materialProgress, moneyText } from '../lib/logic';
 import { fmt } from '../lib/dates';
+import { go, programHref } from '../lib/route';
 
 export const STATUS_ICON: Record<ProgramStatus, LucideIcon> = {
   exploring: Compass,
@@ -140,7 +141,7 @@ export default function Programs() {
               {list.map((p) => (
                 <tr key={p.id}>
                   <td>
-                    <a href={`#/programs/${p.id}`} className="strong-link">
+                    <a href={programHref(p.id)} className="strong-link">
                       {p.school}
                       <br />
                       <span className="muted">{p.programName}</span>
@@ -174,7 +175,7 @@ export default function Programs() {
       ) : (
         <div className="card-grid">
           {list.map((p) => (
-            <a key={p.id} href={`#/programs/${p.id}`} className="card program-card">
+            <a key={p.id} href={programHref(p.id)} className="card program-card">
               <div className="badges">
                 <StatusBadge status={p.status} />
                 <VerifyCell p={p} />
@@ -199,7 +200,7 @@ export default function Programs() {
         </div>
       )}
 
-      {editing && <ProgramForm program={editing} onClose={() => setEditing(null)} onSaved={(p) => (location.hash = `#/programs/${p.id}`)} />}
+      {editing && <ProgramForm program={editing} onClose={() => setEditing(null)} onSaved={(p) => go(programHref(p.id))} />}
     </div>
   );
 }

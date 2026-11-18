@@ -9,6 +9,7 @@ import { fmt, inRange, relative, startOfWeek, toISO, weekday } from '../lib/date
 import { isRestDay, tasksOn } from '../lib/scheduler';
 import { phaseProgress } from '../lib/logic';
 import { WEEKDAYS } from '../labels';
+import { pageHref } from '../lib/route';
 
 export default function Today() {
   const { data, today } = useStore();
@@ -123,7 +124,7 @@ export default function Today() {
           )}
         </Section>
 
-        <Section title="本週重點" icon={Target} action={<a className="btn ghost sm" href="#/review">設定</a>}>
+        <Section title="本週重點" icon={Target} action={<a className="btn ghost sm" href={pageHref('review')}>設定</a>}>
           {focus.length === 0 ? (
             <p className="muted">本週還沒選重點。可在「回顧」頁挑最多三項。</p>
           ) : (

@@ -160,7 +160,7 @@ function WeekView({ week, onPick, onTask }: { week: string; onPick: (m: Mileston
             ))}
             {ts.map((t) => (
               <label key={t.id} className="check-label small">
-                <input type="checkbox" checked={t.status === 'done'} onChange={() => toggle(t)} style={{ width: 18, height: 18, accentColor: '#724319' }} />
+                <input type="checkbox" checked={t.status === 'done'} onChange={() => toggle(t)} style={{ width: 18, height: 18, accentColor: '#e0147a' }} />
                 <button className="link-btn" style={{ textDecoration: t.status === 'done' ? 'line-through' : 'none' }} onClick={() => onTask(t)}>
                   {t.title}
                 </button>

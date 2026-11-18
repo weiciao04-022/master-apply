@@ -38,6 +38,8 @@ import { TaskForm, TaskRow, newTask } from '../components/tasks';
 import { STATUS_ICON, useMaterial } from './Programs';
 import { convertMoney, moneyText, uid } from '../lib/logic';
 import { fmt, relative } from '../lib/dates';
+import { askConfirm } from '../components/confirm';
+import { pageHref } from '../lib/route';
 
 function fieldValue(p: Program, f: InfoField | 'officialUrl'): string {
   if (f === 'tuition' || f === 'living') return p[f].amount === null ? '' : moneyText(p[f]);
@@ -49,13 +51,13 @@ export default function ProgramDetail({ id }: { id: string }) {
   const p = data.programs.find((x) => x.id === id);
   const [editing, setEditing] = useState(false);
   const [task, setTask] = useState<Task | null>(null);
-  if (!p) return <Empty icon={CircleHelp} title="找不到這個學程"><a href="#/programs">回到選校列表</a></Empty>;
+  if (!p) return <Empty icon={CircleHelp} title="找不到這個學程"><a href={pageHref('programs')}>回到選校列表</a></Empty>;
 
   const tasks = data.tasks.filter((t) => t.programIds.includes(p.id) && !t.parentId);
 
   return (
     <div className="page">
-      <a href="#/programs" className="back">
+      <a href={pageHref('programs')} className="back">
         <ArrowLeft size={16} />
         選校與學程
       </a>
@@ -272,7 +274,7 @@ function SourceModal({ source, onClose, onSave, onDelete }: { source: Source; on
       footer={
         <>
           {onDelete && (
-            <button className="btn danger ghost" onClick={() => confirm('刪除這筆來源？') && (onDelete(), onClose())}>
+            <button className="btn danger ghost" onClick={() => void askConfirm('刪除這筆來源？').then((ok) => ok && (onDelete(), onClose()))}>
               <Trash2 size={16} />
               刪除
             </button>
@@ -514,7 +516,7 @@ export function MilestoneModal({ milestone, onClose, onSave }: { milestone: Mile
       footer={
         <>
           {exists && (
-            <button className="btn danger ghost" onClick={() => confirm('刪除這個日期？') && (remove('milestones', m.id), onClose())}>
+            <button className="btn danger ghost" onClick={() => void askConfirm('刪除這個日期？').then((ok) => ok && (remove('milestones', m.id), onClose()))}>
               <Trash2 size={16} />
               刪除
             </button>
@@ -621,7 +623,7 @@ function MaterialsSection({ program: p }: { program: Program }) {
                     <input type="checkbox" checked={r.required} onChange={(e) => patch(r, { required: e.target.checked })} />
                     必要
                   </label>
-                  <button className="icon-btn" aria-label={`刪除 ${r.name}`} onClick={() => confirm(`刪除「${r.name}」？`) && remove('requirements', r.id)}>
+                  <button className="icon-btn" aria-label={`刪除 ${r.name}`} onClick={() => void askConfirm(`刪除「${r.name}」？`).then((ok) => ok && remove('requirements', r.id))}>
                     <Trash2 size={16} />
                   </button>
                 </div>

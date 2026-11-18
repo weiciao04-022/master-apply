@@ -9,6 +9,7 @@ import { addDays, fmt, startOfWeek, toISO } from '../lib/dates';
 import { INTERVIEW, RESULT, SUBMISSION } from '../labels';
 import { StatusBadge, useMaterial } from './Programs';
 import type { Program } from '../types';
+import { programHref } from '../lib/route';
 
 function BoardCard({ p }: { p: Program }) {
   const { data } = useStore();
@@ -16,7 +17,7 @@ function BoardCard({ p }: { p: Program }) {
   const app = data.applications.find((a) => a.programId === p.id);
   return (
     <article className="card board-card">
-      <a href={`#/programs/${p.id}`} className="strong-link">
+      <a href={programHref(p.id)} className="strong-link">
         {p.school}
       </a>
       <p className="muted small">{p.programName}</p>
